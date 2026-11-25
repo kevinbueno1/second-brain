@@ -35,8 +35,8 @@
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 973,
-      "sha256": "53138924a04014130b40b6fdc024bdd87908056b0b0374c1a9d411bb326576d1"
+      "bytes": 948,
+      "sha256": "c12e55fbd8b00fb3739166152ee2786cf5d331781a5b4823076ce48da808dfb7"
     },
     {
       "path": "README.md",
@@ -110,13 +110,13 @@
     },
     {
       "path": "second-brain/AGENTS.md",
-      "bytes": 5319,
-      "sha256": "351495a4e5274e0cba088b4ea2e13dc20390c5fa043d6cb5a8df43e10bee3cf9"
+      "bytes": 5266,
+      "sha256": "033ec662a025b2a0f47c02e6345f3309e03c3403040a399e977594aa6bf44a68"
     },
     {
       "path": "second-brain/EJEMPLO-COTIDIANO.md",
-      "bytes": 7878,
-      "sha256": "c996bed70aaa92274ad965e1bf873b3f55eec769efd917460e737b33d7f244f1"
+      "bytes": 7776,
+      "sha256": "8e443363aaaba3b8a7afa68787a4f016c448218422889f1b25c1439fd63b9a12"
     },
     {
       "path": "second-brain/INICIO.md",
@@ -140,8 +140,8 @@
     },
     {
       "path": "second-brain-tools/requirements-setup.lock.txt",
-      "bytes": 32,
-      "sha256": "dd2ac199525dd9bb542deb8bd345f78c9824bd8dbf0516a2f397513e59f3d5ea"
+      "bytes": 30,
+      "sha256": "bb7c6f959ea998f0535429f6a946865a6fa68bef2bea735fabca6b0a7a083b66"
     },
     {
       "path": "second-brain-tools/requirements-setup.txt",
@@ -155,8 +155,8 @@
     },
     {
       "path": "second-brain-tools/skills/second-brain/SKILL.md",
-      "bytes": 2453,
-      "sha256": "d5c818db9e588c212316c2c50bd7eb5f4c969d5e6372b8a0674b1218eee8fb55"
+      "bytes": 2428,
+      "sha256": "97db210fc3b231840f906e1ef944ff67ae623796165bd00341caee964fd9fb8b"
     },
     {
       "path": "second-brain-tools/tests/test_brain.py",
