@@ -1,0 +1,25 @@
+{
+  "public_snapshot_date": "2026-11-24",
+  "implementation": "Markdown vault, native Python helper, personal Codex skill and installer",
+  "upstream_reference": {
+    "repository": "https://github.com/mattpocock/skills",
+    "examined_revision": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+    "vendored": false
+  },
+  "design_reference": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
+  "export_scope": "Implementation, tests, reusable templates, public documentation, empty vault structure",
+  "excluded": [
+    "personal knowledge notes",
+    "original sources",
+    "chat transcripts",
+    "global user configuration",
+    "backups",
+    "runtime state",
+    "third-party skill repository and ZIP"
+  ],
+  "public_adaptations": [
+    "personal absolute paths replaced by install-time templates",
+    "documentation prepared for a fresh checkout"
+  ],
+  "automatic_capture_status": "proposal, not implemented or enabled"
+}

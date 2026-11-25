@@ -1,0 +1,172 @@
+{
+  "snapshot_date": "2026-11-24",
+  "scope": "Public implementation and empty vault structure",
+  "file_count": 33,
+  "files": [
+    {
+      "path": ".github/workflows/tests.yml",
+      "bytes": 585,
+      "sha256": "516ddcc8dca7d06825e2acdb7e8d7e437064382baaecf2c58824f300376a2daa"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 584,
+      "sha256": "6c4cce2b147218180eec08cc87293387fc6efa43d058970224708f076c40c477"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 596,
+      "sha256": "b6fc08528bccbbca16e7e71e0a0d2546d283d4f1b03c15a4ec629efc64c9a92b"
+    },
+    {
+      "path": "docs/ARQUITECTURA.md",
+      "bytes": 1853,
+      "sha256": "8287476998cd302cfae2c7ec43d17a5191849ed4399fed77624981816f13ee26"
+    },
+    {
+      "path": "docs/AUTOMATIZACION.md",
+      "bytes": 2570,
+      "sha256": "8020661ec9df3bd5f0c022ca649f6a5e5f9d0f73d978aab48b58d41d83665196"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 1252,
+      "sha256": "7d10dcf519a3a8da8bd09643740d473eec8f23d0d4b336a25496ebee95274a4e"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 973,
+      "sha256": "53138924a04014130b40b6fdc024bdd87908056b0b0374c1a9d411bb326576d1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4253,
+      "sha256": "338ad40ade8206663a4f424216df685da29e12ad91eb34341a83049dd6c3288a"
+    },
+    {
+      "path": "second-brain/.obsidian/app.json",
+      "bytes": 110,
+      "sha256": "b23b64adc1693e293fb743cf902b1a9b920eda24b4f0ca3b5cac6a436f704c34"
+    },
+    {
+      "path": "second-brain/.obsidian/core-plugins.json",
+      "bytes": 701,
+      "sha256": "09d39b3adbd98a76e886d9b3573f30ac3477b27b2006b78b09cb93cf542b3218"
+    },
+    {
+      "path": "second-brain/.obsidian/templates.json",
+      "bytes": 32,
+      "sha256": "401fadd5a05be150fa04f939474105465bd7ea21d12b7acd1af7bb70a8e9051c"
+    },
+    {
+      "path": "second-brain/00-entrada/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/10-proyectos/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/20-areas/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/30-conocimiento/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/40-archivo/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/80-fuentes/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "second-brain/90-plantillas/01-Captura.md",
+      "bytes": 377,
+      "sha256": "4a67386729a1faa1ec91158ffbf75f9e74f25e1faac3e1ea7a608ef4da0c2432"
+    },
+    {
+      "path": "second-brain/90-plantillas/02-Proyecto.md",
+      "bytes": 6451,
+      "sha256": "c845d062940206ef517e2479ff63733da64bbdbf39891db1a579250566db4d1d"
+    },
+    {
+      "path": "second-brain/90-plantillas/03-Aprendizaje.md",
+      "bytes": 1058,
+      "sha256": "c000da7d18427683d6e09ad8aa25f8eefaa21f4d0d1edcad85bfc81ddc3596ec"
+    },
+    {
+      "path": "second-brain/90-plantillas/04-Entrevista-de-requisitos.md",
+      "bytes": 5771,
+      "sha256": "b70275abb3087b20888859d5cc7b682da079b9d654e73e977a05937788532448"
+    },
+    {
+      "path": "second-brain/AGENTS.md",
+      "bytes": 5319,
+      "sha256": "351495a4e5274e0cba088b4ea2e13dc20390c5fa043d6cb5a8df43e10bee3cf9"
+    },
+    {
+      "path": "second-brain/EJEMPLO-COTIDIANO.md",
+      "bytes": 7878,
+      "sha256": "c996bed70aaa92274ad965e1bf873b3f55eec769efd917460e737b33d7f244f1"
+    },
+    {
+      "path": "second-brain/INICIO.md",
+      "bytes": 873,
+      "sha256": "b00620d3db811a8e63e8ed098d4d43e2daa0a63452ae40aeb45d905295a9373c"
+    },
+    {
+      "path": "second-brain/INSTRUCTIVO.md",
+      "bytes": 5379,
+      "sha256": "139f96d42569887f601a613b5d24267af3d48c04abbf856125e5c75a70612829"
+    },
+    {
+      "path": "second-brain-tools/brain.py",
+      "bytes": 16134,
+      "sha256": "8381e43d6dddf721b1b56b9cc8b5957846ddcee923f9558d75794388da386b3c"
+    },
+    {
+      "path": "second-brain-tools/install_global.py",
+      "bytes": 7728,
+      "sha256": "c189f3de16f024d629cf7ca277330e1d2802457fff12b3acbd8bb932c309aa90"
+    },
+    {
+      "path": "second-brain-tools/requirements-setup.lock.txt",
+      "bytes": 32,
+      "sha256": "dd2ac199525dd9bb542deb8bd345f78c9824bd8dbf0516a2f397513e59f3d5ea"
+    },
+    {
+      "path": "second-brain-tools/requirements-setup.txt",
+      "bytes": 32,
+      "sha256": "7259530c7c9c5ff36ac9b281ac0640d4cc2a2cf0cc800a84f7fd5d00bb737da8"
+    },
+    {
+      "path": "second-brain-tools/skills/second-brain/agents/openai.yaml",
+      "bytes": 111,
+      "sha256": "e9de8f273b2b8af1519a453c58c0150836b1c3babe91cb307ade48cc45e3f0b8"
+    },
+    {
+      "path": "second-brain-tools/skills/second-brain/SKILL.md",
+      "bytes": 2453,
+      "sha256": "d5c818db9e588c212316c2c50bd7eb5f4c969d5e6372b8a0674b1218eee8fb55"
+    },
+    {
+      "path": "second-brain-tools/tests/test_brain.py",
+      "bytes": 5536,
+      "sha256": "5b56db39c683a9075d75dd3ce0f9801711fcfaf5368c8d719692a1878b14ea99"
+    },
+    {
+      "path": "second-brain-tools/tests/test_install_global.py",
+      "bytes": 4031,
+      "sha256": "b33cb6b97639e75bb89edc5a22e07f46d2b9154b007753311225707c90206ae9"
+    }
+  ]
+}
