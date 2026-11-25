@@ -1,7 +1,7 @@
 {
   "snapshot_date": "2026-11-25",
   "scope": "Public implementation, review-first capture pilot and empty vault structure",
-  "file_count": 40,
+  "file_count": 41,
   "files": [
     {
       "path": ".github/workflows/tests.yml",
@@ -20,8 +20,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 1821,
-      "sha256": "951b30daa9e6223267c4f59e72c14765928e260c44fd484a6af6c1094d3f6e74"
+      "bytes": 2628,
+      "sha256": "a3c3fc67d0f392c99ab584d9143a44a12da8d298bb316d1ee6c4825a379a324c"
     },
     {
       "path": "docs/ARQUITECTURA.md",
@@ -32,6 +32,11 @@
       "path": "docs/AUTOMATIZACION.md",
       "bytes": 8494,
       "sha256": "57fb32cf9ac1a949e479dd1cc76ea05005d5ad3b5a2eb8ec2e3d1d42fd2b69ac"
+    },
+    {
+      "path": "docs/PORTABILIDAD-Y-CIERRE.md",
+      "bytes": 6795,
+      "sha256": "1eb3fe8ecadcc585cf8483fe5c2f3eabdf0d9f917cc2baafa24fba84efed3db9"
     },
     {
       "path": "docs/SESIONES-Y-HOOKS.md",
@@ -55,8 +60,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 6300,
-      "sha256": "f5cf123188e53b62eee85d85da4fa045eced5f313a187283aded3c83ad72bb23"
+      "bytes": 6691,
+      "sha256": "1e3690cdbe616674b6f9e1f77001a4efaac640f3bb5b0c46cdf40104a7da7523"
     },
     {
       "path": "second-brain/.obsidian/app.json",
@@ -125,8 +130,8 @@
     },
     {
       "path": "second-brain/AGENTS.md",
-      "bytes": 5782,
-      "sha256": "0ca959a87ece0f479f091cfbccc1440cbc035bdafbdf3674edc0b81beecc4afc"
+      "bytes": 6380,
+      "sha256": "027e1ff263d7344eca3bf04e88303c3a0c732619927941cc241b62176d9a4ebf"
     },
     {
       "path": "second-brain/EJEMPLO-COTIDIANO.md",
@@ -155,8 +160,8 @@
     },
     {
       "path": "second-brain-tools/capture.py",
-      "bytes": 25789,
-      "sha256": "4f0591251277058eb5b2f6fcb52d1cc72dfa864eb5032043b76a02133a84dbc7"
+      "bytes": 29547,
+      "sha256": "5c8233ead5b8f99b8f64aaae6e35881c0553eeb85f94dbec9482b4f90c91b483"
     },
     {
       "path": "second-brain-tools/install_capture.py",
@@ -195,8 +200,8 @@
     },
     {
       "path": "second-brain-tools/tests/test_capture.py",
-      "bytes": 14037,
-      "sha256": "bb434e8c4c034b54792fac2efb72ed90a6ed6afcb4aea2a639c1b8dcc59a90c9"
+      "bytes": 19554,
+      "sha256": "10e67a12fab36cb26084c7090250c3d69b09caa0777ff4e23eda8e89f4775e09"
     },
     {
       "path": "second-brain-tools/tests/test_install_global.py",

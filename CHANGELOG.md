@@ -1,5 +1,12 @@
 # Registro de cambios
 
+## 2026-11-25 — Captura a petición y portabilidad
+
+- Nuevo `capture.py checkpoint`, con ID de sesión del entorno o explícito, resolución de transcript y validación de identidad/proyecto. Reutiliza la cola de los hooks sin emitir un evento SessionEnd ni cerrar el chat.
+- `--process-now` procesa un bloque de esa sesión, conserva filtros y reintentos, y deja candidatos sujetos a revisión. El comando informa errores de procesamiento.
+- Protocolo de uso con «Prepara la memoria de esta conversación», guía para otro equipo y criterios de selección al ampliar el alcance.
+- Ocho pruebas nuevas: comando real en perfil aislado, identidad, ambigüedad, exclusiones, deduplicación entre checkpoint y hook, sesión objetivo, errores y reintento. Las pruebas locales de esta publicación suman 43.
+
 ## 2026-11-25 — Piloto de captura selectiva
 
 - Se añadió `capture.py`: cola SQLite, lectura incremental de sesiones locales, extracción semántica, citas verificables, búsqueda de notas relacionadas y panel revisable.

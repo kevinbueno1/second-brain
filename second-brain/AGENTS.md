@@ -48,6 +48,8 @@ El alcance de un proyecto ajeno sigue gobernado por sus propias instrucciones y 
 
 ## Herramienta y extensiones
 
+Cuando el usuario pida «Prepara la memoria de esta conversación», resuelve `../second-brain-tools/capture.py` desde esta bóveda y ejecútalo con `checkpoint --process-now`, el Python instalado y directorio de trabajo del proyecto de esa sesión. Verifica el resultado y conserva la revisión antes de publicar. Usa el ID del entorno de Codex o uno comprobado; una identidad ausente o ambigua requiere resolverla, nunca elegir el chat más reciente. Lee `../docs/PORTABILIDAD-Y-CIERRE.md` para argumentos, rutas, alcance y bloqueos pendientes. Esto prepara memoria sin cerrar la conversación.
+
 Para revisar candidatos o diagnosticar la captura, lee `../docs/AUTOMATIZACION.md` y consulta `../second-brain-tools/capture.py status`. El panel `CAPTURA-PILOTO.md` es generado; la cola y configuración locales están en `.brain/capture`. Los candidatos no son conocimiento consolidado. Publica solo tras aceptación explícita y lectura de las notas relacionadas; resuelve los conflictos R antes de consolidar. Mantén estado, panel, fuentes y notas personales fuera de GitHub.
 
 El helper está en `../second-brain-tools/brain.py` y usa la biblioteca estándar de Python. `../second-brain-tools/install_global.py` instala la skill personal y las referencias globales con cambios acotados y copias previas. El manual de uso y evolución es `INSTRUCTIVO.md`.

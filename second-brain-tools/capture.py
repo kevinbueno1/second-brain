@@ -88,10 +88,11 @@ def database(config):
         connection.close()
 
 
-def enqueue(config, event):
+def enqueue(config, event, *, manual=False):
     if not config['enabled'] or os.environ.get('SECOND_BRAIN_CAPTURE_WORKER') == '1':
         return {'queued': False, 'reason': 'disabled-or-worker'}
-    if event.get('hook_event_name') not in {'Stop', 'SessionEnd'}:
+    allowed_events = {'Checkpoint'} if manual else {'Stop', 'SessionEnd'}
+    if event.get('hook_event_name') not in allowed_events:
         return {'queued': False, 'reason': 'unsupported-event'}
     if event.get('agent_id') or event.get('parent_thread_id'):
         return {'queued': False, 'reason': 'subagent'}
@@ -122,6 +123,53 @@ def enqueue(config, event):
           generation=generation+1,attempts=0,retry_after=0,error=NULL''',
           (sid, str(path), str(Path(cwd).resolve()), size, time.time()))
     return {'queued': True, 'session': sid}
+
+
+def checkpoint(config, session_id=None, transcript=None, project=None, process_now=False):
+    """Capture an exact local session snapshot, without emitting a lifecycle hook."""
+    if not config['enabled'] or os.environ.get('SECOND_BRAIN_CAPTURE_WORKER') == '1':
+        return {'queued': False, 'reason': 'disabled-or-worker'}
+    if session_id is None:
+        ids = {os.environ[key] for key in ['CODEX_THREAD_ID', 'CODEX_SESSION_ID'] if os.environ.get(key)}
+        if len(ids) > 1:
+            raise ValueError('Identidad ambigua; especifica --session-id')
+        session_id = next(iter(ids), None)
+    if not isinstance(session_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,100}', session_id):
+        raise ValueError('Indica --session-id; no se elige la conversación más reciente')
+    cwd = Path(project if project is not None else Path.cwd()).resolve()
+    if not in_roots(cwd, config['allowed_roots']):
+        return {'queued': False, 'reason': 'outside-pilot'}
+    if transcript is None:
+        with database(config) as db:
+            known = db.execute('SELECT transcript FROM sessions WHERE id=?', (session_id,)).fetchone()
+        if known:
+            transcript = known['transcript']
+        else:
+            matches = {path.resolve() for root in config['transcript_roots']
+                       for path in Path(root).rglob(f'*{session_id}.jsonl') if path.is_file()}
+            if len(matches) != 1:
+                raise ValueError('Transcript ausente o ambiguo; indica --transcript con su ruta exacta')
+            transcript = matches.pop()
+    path = Path(transcript).resolve(strict=True)
+    if not in_roots(path, config['transcript_roots']):
+        raise ValueError('Transcript fuera de las ubicaciones permitidas')
+    with path.open('rb') as stream:
+        first = json.loads(stream.readline(131072))
+    metadata = first.get('payload', {})
+    if first.get('type') != 'session_meta' or metadata.get('id') != session_id:
+        raise ValueError('La identidad del transcript no coincide con --session-id')
+    if not metadata.get('cwd') or Path(metadata['cwd']).resolve() != cwd:
+        raise ValueError('El proyecto del transcript no coincide con --project')
+    if metadata.get('thread_source') in {'subagent', 'guardian_review'}:
+        return {'queued': False, 'reason': 'subagent'}
+    result = enqueue(config, {'hook_event_name': 'Checkpoint', 'session_id': session_id,
+                              'cwd': str(cwd), 'transcript_path': str(path)}, manual=True)
+    result['trigger'] = 'manual-checkpoint'
+    if process_now and (result['queued'] or result.get('reason') == 'same-snapshot'):
+        result['processing'] = process(config, force=True, session_id=session_id)
+        if result['processing'].get('error'):
+            result['error'] = result['processing']['error']
+    return result
 
 
 def read_messages(config, session):
@@ -252,7 +300,7 @@ def identifier(candidate, cwd):
     return hashlib.sha256(canonical.encode()).hexdigest()[:20]
 
 
-def process(config, force=False, extractor=extract):
+def process(config, force=False, extractor=extract, session_id=None):
     if not config['enabled']:
         return {'processed': 0, 'disabled': True}
     folder = Path(config['vault']) / '.brain/capture'
@@ -276,10 +324,12 @@ def process(config, force=False, extractor=extract):
     try:
         with database(config) as db:
             threshold = time.time() if force else time.time() - config.get('debounce_seconds', 600)
-            session = db.execute('SELECT * FROM sessions WHERE generation>processed AND updated<=? AND retry_after<=? ORDER BY updated LIMIT 1', (threshold, time.time())).fetchone()
+            session = db.execute('''SELECT * FROM sessions WHERE generation>processed AND updated<=?
+              AND retry_after<=? AND (? IS NULL OR id=?) ORDER BY updated LIMIT 1''',
+              (threshold, time.time(), session_id, session_id)).fetchone()
         if not session:
             render(config)
-            return {'processed': 0}
+            return {'processed': 0, 'reason': 'no-eligible-snapshot'}
         try:
             messages, cursor, reason = read_messages(config, session)
             with database(config) as db:
@@ -397,6 +447,11 @@ def main():
     commands.add_parser('hook')
     commands.add_parser('status')
     commands.add_parser('render')
+    manual = commands.add_parser('checkpoint', help='Preparar memoria sin cerrar la conversación')
+    manual.add_argument('--session-id', help='ID exacto; por defecto usa el entorno de Codex')
+    manual.add_argument('--transcript', type=Path, help='Ruta exacta si la sesión no se puede resolver')
+    manual.add_argument('--project', type=Path, default=Path.cwd(), help='Carpeta de la sesión; por defecto la actual')
+    manual.add_argument('--process-now', action='store_true', help='Procesar un bloque de esta sesión sin esperar inactividad')
     worker = commands.add_parser('process')
     worker.add_argument('--force', action='store_true', help='Omitir espera de inactividad, no los controles de selección')
     for operation in ['accept', 'reject']:
@@ -417,6 +472,8 @@ def main():
             return 0
         if args.command == 'process':
             result = process(config, args.force)
+        elif args.command == 'checkpoint':
+            result = checkpoint(config, args.session_id, args.transcript, args.project, args.process_now)
         elif args.command == 'render':
             render(config)
             result = {'rendered': True}

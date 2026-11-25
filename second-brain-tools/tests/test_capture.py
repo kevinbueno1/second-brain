@@ -260,6 +260,90 @@ class CaptureTests(unittest.TestCase):
             capture.set_enabled(self.config, True)
         self.assertEqual(self.config['paused_intervals'], [{'start': '2026-11-24T15:00:00Z', 'end': '2026-11-24T16:00:00Z'}])
 
+    def checkpoint(self, **kwargs):
+        return capture.checkpoint(self.config, session_id='test-1', transcript=self.path,
+                                  project=self.project, **kwargs)
+
+    def test_manual_snapshot_and_native_stop_share_deduplication(self):
+        self.assertTrue(self.checkpoint()['queued'])
+        self.assertEqual(self.checkpoint()['reason'], 'same-snapshot')
+        self.assertEqual(self.enqueue()['reason'], 'same-snapshot')
+        self.run_worker()
+        self.assertEqual(len(self.candidates()), 1)
+        self.assertFalse((self.vault / '00-entrada').exists())
+        self.message('Puedo continuar después del checkpoint.')
+        self.assertTrue(self.enqueue()['queued'])
+
+    def test_manual_event_is_not_accepted_as_native_hook(self):
+        self.assertEqual(capture.enqueue(self.config, self.event(hook_event_name='Checkpoint'))['reason'], 'unsupported-event')
+
+    def test_manual_uses_exact_environment_identity_and_never_latest_chat(self):
+        self.path = self.path.rename(self.transcripts / 'rollout-test-1.jsonl')
+        with patch.dict(capture.os.environ, {'CODEX_THREAD_ID': 'test-1', 'CODEX_SESSION_ID': 'test-1'}):
+            self.assertTrue(capture.checkpoint(self.config, project=self.project)['queued'])
+        with patch.dict(capture.os.environ, {}, clear=True):
+            with self.assertRaisesRegex(ValueError, '--session-id'):
+                capture.checkpoint(self.config, project=self.project)
+        with patch.dict(capture.os.environ, {'CODEX_THREAD_ID': 'test-1', 'CODEX_SESSION_ID': 'test-2'}):
+            with self.assertRaisesRegex(ValueError, 'ambigua'):
+                capture.checkpoint(self.config, project=self.project)
+
+    def test_manual_rejects_ambiguous_transcript_and_metadata_mismatch(self):
+        original = self.path.read_bytes()
+        (self.transcripts / 'a-test-1.jsonl').write_bytes(original)
+        (self.transcripts / 'b-test-1.jsonl').write_bytes(original)
+        with self.assertRaisesRegex(ValueError, 'ambiguo'):
+            capture.checkpoint(self.config, 'test-1', project=self.project)
+        with self.assertRaisesRegex(ValueError, 'identidad'):
+            capture.checkpoint(self.config, 'test-2', self.path, self.project)
+        child = self.project / 'child'
+        child.mkdir()
+        with self.assertRaisesRegex(ValueError, 'proyecto'):
+            capture.checkpoint(self.config, 'test-1', self.path, child)
+
+    def test_manual_respects_scope_pause_worker_and_subagent_exclusion(self):
+        self.assertEqual(capture.checkpoint(self.config, 'test-1', self.path, self.base)['reason'], 'outside-pilot')
+        self.config['enabled'] = False
+        self.assertEqual(self.checkpoint(process_now=True)['reason'], 'disabled-or-worker')
+        self.config['enabled'] = True
+        with patch.dict(capture.os.environ, {'SECOND_BRAIN_CAPTURE_WORKER': '1'}):
+            self.assertEqual(self.checkpoint()['reason'], 'disabled-or-worker')
+        self.path.write_text(json.dumps({'type': 'session_meta', 'payload': {
+            'id': 'test-1', 'cwd': str(self.project), 'parent_thread_id': 'parent'}}) + '\n', encoding='utf-8')
+        self.assertEqual(self.checkpoint()['reason'], 'subagent')
+
+    def test_manual_processing_targets_this_session_and_propagates_error(self):
+        with patch.object(capture, 'process', return_value={'processed': 0, 'error': 'Pendiente de revisión'}) as worker:
+            result = self.checkpoint(process_now=True)
+        worker.assert_called_once_with(self.config, force=True, session_id='test-1')
+        self.assertEqual(result['error'], 'Pendiente de revisión')
+        with patch.object(capture, 'process', return_value={'processed': 0}) as worker:
+            self.checkpoint(process_now=True)  # Same snapshot can still need processing.
+        worker.assert_called_once()
+
+    def test_targeted_worker_does_not_consume_another_session_or_bypass_retry(self):
+        second = self.transcripts / 'second.jsonl'
+        second.write_text(self.path.read_text(encoding='utf-8').replace('test-1', 'test-2'), encoding='utf-8')
+        capture.enqueue(self.config, self.event(session_id='test-2', transcript_path=str(second)))
+        self.checkpoint()
+        result = capture.process(self.config, force=True, extractor=self.extractor, session_id='test-1')
+        self.assertEqual(result['session'], 'test-1')
+        with capture.database(self.config) as db:
+            row = db.execute("SELECT * FROM sessions WHERE id='test-2'").fetchone()
+            self.assertEqual(row['cursor'], 0)
+            db.execute("UPDATE sessions SET retry_after=? WHERE id='test-2'", (capture.time.time() + 600,))
+        self.assertEqual(capture.process(self.config, force=True, extractor=self.extractor, session_id='test-2')['processed'], 0)
+
+    def test_checkpoint_cli_queues_without_model_or_lifecycle_event(self):
+        config_path = self.base / 'capture-config.json'
+        config_path.write_text(json.dumps(self.config), encoding='utf-8')
+        command = subprocess.run([sys.executable, str(Path(capture.__file__)), '--config', str(config_path),
+            'checkpoint', '--session-id', 'test-1', '--transcript', str(self.path), '--project', str(self.project)],
+            capture_output=True, text=True, encoding='utf-8')
+        self.assertEqual(command.returncode, 0, command.stderr)
+        self.assertEqual(json.loads(command.stdout)['trigger'], 'manual-checkpoint')
+        self.assertEqual(capture.status(self.config)['sessions_pending'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()

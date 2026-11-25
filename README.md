@@ -57,6 +57,7 @@ Abre una conversación nueva de Codex y escribe:
 - [Arquitectura](docs/ARQUITECTURA.md).
 - [Captura automática: instalación, uso y límites del piloto](docs/AUTOMATIZACION.md).
 - [Stop, SessionStart y SessionEnd](docs/SESIONES-Y-HOOKS.md).
+- [Replicar en otro equipo y preparar memoria con un comando](docs/PORTABILIDAD-Y-CIERRE.md).
 - [Qué se implementó y qué se comprobó](docs/VERIFICACION-PILOTO.md).
 - [Registro de cambios](CHANGELOG.md).
 - [Referencias y atribución](NOTICE.md).
@@ -90,6 +91,8 @@ El piloto requiere Codex CLI instalado, autenticado y disponible como `codex` en
 La primera orden muestra la propuesta. Aplicarla instala dos hooks personales y, en Windows, una tarea horaria oculta con tu usuario conectado. Inicialmente permite solo este checkout. Revisa su confianza en Codex y comprueba un evento real del cliente; los resultados de la instalación de desarrollo no se transfieren a tu equipo.
 
 En chat: **«Revisa los candidatos de captura de mi Second Brain»**. El panel local `second-brain/CAPTURA-PILOTO.md` muestra las propuestas, citas y posibles notas relacionadas. Aceptar publica una nota; descartar elimina su cuerpo y citas de la cola. Los conflictos y las actualizaciones de notas existentes necesitan revisión.
+
+Para adelantar la captura, pide **«Prepara la memoria de esta conversación»**. El asistente usa `capture.py checkpoint --process-now` para encolar y procesar un bloque de la sesión exacta; la conversación puede continuar. Consulta [el comando y sus límites](docs/PORTABILIDAD-Y-CIERRE.md).
 
 Lee [la guía completa](docs/AUTOMATIZACION.md) para pausar, reanudar, añadir otro proyecto o retirar la integración. En macOS/Linux, el instalador no registra un programador de tareas: hace falta ejecutar `capture.py process` manualmente o integrar un ejecutor propio. El código y sus pruebas son portables; la programación incluida es de Windows.
 
