@@ -2,7 +2,7 @@
 
 Infraestructura local para conservar ideas, proyectos, decisiones y aprendizaje en una bóveda central. Una skill personal permite que Codex consulte y actualice esa misma memoria desde distintas carpetas de trabajo. Obsidian es una interfaz opcional para los mismos archivos.
 
-Esta publicación contiene el código, las pruebas, las plantillas y la documentación del avance inicial. La bóveda se distribuye vacía: las notas personales y sus fuentes permanecen fuera de la publicación.
+Esta publicación contiene código, pruebas, plantillas y documentación, incluido el primer piloto de captura selectiva. La bóveda se distribuye vacía: las notas personales y sus fuentes permanecen fuera de la publicación. Descargar este repositorio no activa hooks ni tareas en tu equipo.
 
 ## Estado del proyecto
 
@@ -14,7 +14,8 @@ Esta publicación contiene el código, las pruebas, las plantillas y la document
 | Skill personal e instalador con vista previa y respaldo de configuración | Implementado |
 | Pruebas de operaciones, concurrencia e instalación aislada | Incluidas |
 | Plantillas para ideas, proyectos, aprendizaje y entrevista de requisitos | Incluidas |
-| Captura automática al terminar conversaciones | Propuesta; no implementada ni activada |
+| Cola de eventos Stop/SessionEnd, extracción con modelo y panel de candidatos | Piloto implementado; instalación opcional |
+| Procesador horario en Windows, pausa/reanudación y publicación aceptada | Implementado; publicación automática desactivada |
 | Búsqueda semántica y conexión con todos los chats de una cuenta | No implementadas |
 
 ## Empezar
@@ -54,7 +55,10 @@ Abre una conversación nueva de Codex y escribe:
 - [Instructivo y conexiones](second-brain/INSTRUCTIVO.md).
 - [Ejemplo cotidiano](second-brain/EJEMPLO-COTIDIANO.md).
 - [Arquitectura](docs/ARQUITECTURA.md).
-- [Propuesta de captura automática](docs/AUTOMATIZACION.md).
+- [Captura automática: instalación, uso y límites del piloto](docs/AUTOMATIZACION.md).
+- [Stop, SessionStart y SessionEnd](docs/SESIONES-Y-HOOKS.md).
+- [Qué se implementó y qué se comprobó](docs/VERIFICACION-PILOTO.md).
+- [Registro de cambios](CHANGELOG.md).
 - [Referencias y atribución](NOTICE.md).
 
 Para usar Obsidian, abre la carpeta `second-brain` como una bóveda existente y entra en `INICIO.md`. La aplicación se instala por separado.
@@ -73,4 +77,20 @@ El helper de notas usa únicamente la biblioteca estándar de Python. `tomlkit` 
 
 El `.gitignore` excluye por defecto las notas personales, las fuentes, el historial, las copias y el estado de ejecución. Las plantillas y los documentos de uso sí pertenecen al repositorio. Si eliges versionar conocimiento real, revisa deliberadamente su audiencia y sus fuentes.
 
-La instalación describe un flujo documental local. No importa automáticamente todo el historial de ChatGPT ni mantiene un observador en segundo plano.
+## Activar el piloto opcional
+
+El piloto requiere Codex CLI instalado, autenticado y disponible como `codex` en PATH. El extractor usa la autenticación y el modelo configurado al instalar, y consume el uso de esa cuenta. Python gestiona la cola y los archivos; el modelo selecciona significado.
+
+```powershell
+& '.\.venv-second-brain\Scripts\python.exe' .\second-brain-tools\install_capture.py
+& '.\.venv-second-brain\Scripts\python.exe' .\second-brain-tools\install_capture.py --apply
+& '.\.venv-second-brain\Scripts\python.exe' .\second-brain-tools\install_capture.py --check
+```
+
+La primera orden muestra la propuesta. Aplicarla instala dos hooks personales y, en Windows, una tarea horaria oculta con tu usuario conectado. Inicialmente permite solo este checkout. Revisa su confianza en Codex y comprueba un evento real del cliente; los resultados de la instalación de desarrollo no se transfieren a tu equipo.
+
+En chat: **«Revisa los candidatos de captura de mi Second Brain»**. El panel local `second-brain/CAPTURA-PILOTO.md` muestra las propuestas, citas y posibles notas relacionadas. Aceptar publica una nota; descartar elimina su cuerpo y citas de la cola. Los conflictos y las actualizaciones de notas existentes necesitan revisión.
+
+Lee [la guía completa](docs/AUTOMATIZACION.md) para pausar, reanudar, añadir otro proyecto o retirar la integración. En macOS/Linux, el instalador no registra un programador de tareas: hace falta ejecutar `capture.py process` manualmente o integrar un ejecutor propio. El código y sus pruebas son portables; la programación incluida es de Windows.
+
+Este piloto trabaja con eventos de Codex local. No sincroniza toda la cuenta de ChatGPT ni observa indiscriminadamente las carpetas del equipo.

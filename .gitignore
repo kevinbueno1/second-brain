@@ -10,6 +10,7 @@ __pycache__/
 second-brain/.brain/
 second-brain/index.md
 second-brain/log.md
+second-brain/CAPTURA-PILOTO.md
 second-brain/.obsidian/workspace*.json
 second-brain/00-entrada/*
 !second-brain/00-entrada/.gitkeep

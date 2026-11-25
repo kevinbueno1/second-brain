@@ -120,7 +120,11 @@ def catalog(root):
         text = path.read_text(encoding="utf-8-sig")
         title = title_of(path, text).replace("[", "\\[").replace("]", "\\]")
         paragraphs = [line.strip() for line in without_frontmatter(text).splitlines() if line.strip() and not line.startswith(("#", "---", "```", "|", "- "))]
-        summary = (paragraphs[0][:160] if paragraphs else "Nota de referencia").replace("\n", " ")
+        # Summaries live at the vault root; copied relative links would change destination.
+        summary_text = paragraphs[0] if paragraphs else "Nota de referencia"
+        summary_text = re.sub(r"!?\[([^\]\n]+)\]\([^)]+\)", r"\1", summary_text)
+        summary_text = re.sub(r"\[\[([^\]\n]+)\]\]", lambda match: match.group(1).split("|")[-1], summary_text)
+        summary = summary_text[:160].replace("\n", " ")
         lines.append(f"- [{title}]({quote(relative, safe='/')}) — {summary}")
     return "\n".join(lines) + "\n"
 

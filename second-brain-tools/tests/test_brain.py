@@ -80,6 +80,14 @@ class BrainTests(unittest.TestCase):
         extra.write_text("# Otra\n\nUna nota nueva.\n", encoding="utf-8")
         self.assertIn("stale-index", [issue["type"] for issue in brain.lint(self.vault)["issues"]])
 
+    def test_catalog_summaries_do_not_relocate_relative_links(self):
+        self.publish(path="30-conocimiento/otra.md", title="Otra nota")
+        self.body.write_text("Consulta [otra nota](otra.md) para continuar.\n", encoding="utf-8")
+        self.publish()
+        index = (self.vault / "index.md").read_text(encoding="utf-8")
+        self.assertIn("— Consulta otra nota para continuar.", index)
+        self.assertTrue(brain.lint(self.vault)["ok"])
+
     def test_concurrent_publications_do_not_lose_events_or_index_entries(self):
         processes = [subprocess.Popen([sys.executable, str(SCRIPT), "--vault", str(self.vault), "publish", "--path", f"30-conocimiento/nota-{i}.md", "--title", f"Nota {i}", "--body", str(self.body), "--source", "fixture"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8") for i in range(4)]
         for process in processes:

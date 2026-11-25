@@ -76,4 +76,6 @@ Si la skill no aparece, abre una sesión nueva de Codex. Si falta acceso a la b�
 
 Modifica el protocolo de la bóveda para cambiar su procedimiento y la skill fuente para cambiar sus puntos de entrada. Ejecuta las pruebas del código, previsualiza la instalación, aplícala y comprueba `--check`. Las rutas de la skill pública se completan durante esa instalación.
 
-La [captura automática](../docs/AUTOMATIZACION.md), la búsqueda semántica, un conector MCP y las incorporaciones desde otras aplicaciones son ampliaciones. Esta versión no instala esos servicios ni programa tareas de fondo.
+La [captura selectiva](../docs/AUTOMATIZACION.md) tiene un piloto opcional con cola, extractor y revisión de candidatos. Su instalador es independiente del instalador de la skill: en Windows puede registrar una tarea horaria, pero ninguna tarea se activa solo por descargar el repositorio. Consulta también [sesiones y eventos](../docs/SESIONES-Y-HOOKS.md).
+
+La búsqueda semántica, un conector MCP y las incorporaciones desde otras aplicaciones siguen como ampliaciones futuras.

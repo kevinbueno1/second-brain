@@ -4,6 +4,8 @@ Esta carpeta es la memoria central para ideas, proyectos y aprendizaje. Codex ut
 
 - [Instructivo y conexiones](INSTRUCTIVO.md).
 - [Ejemplo cotidiano](EJEMPLO-COTIDIANO.md).
+- [Captura selectiva: instalar y revisar el piloto](../docs/AUTOMATIZACION.md).
+- [Cuándo empieza y termina una sesión](../docs/SESIONES-Y-HOOKS.md).
 - [Capturar una idea](90-plantillas/01-Captura.md).
 - [Definir un proyecto](90-plantillas/02-Proyecto.md).
 - [Registrar aprendizaje](90-plantillas/03-Aprendizaje.md).

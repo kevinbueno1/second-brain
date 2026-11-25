@@ -48,6 +48,8 @@ El alcance de un proyecto ajeno sigue gobernado por sus propias instrucciones y 
 
 ## Herramienta y extensiones
 
+Para revisar candidatos o diagnosticar la captura, lee `../docs/AUTOMATIZACION.md` y consulta `../second-brain-tools/capture.py status`. El panel `CAPTURA-PILOTO.md` es generado; la cola y configuración locales están en `.brain/capture`. Los candidatos no son conocimiento consolidado. Publica solo tras aceptación explícita y lectura de las notas relacionadas; resuelve los conflictos R antes de consolidar. Mantén estado, panel, fuentes y notas personales fuera de GitHub.
+
 El helper está en `../second-brain-tools/brain.py` y usa la biblioteca estándar de Python. `../second-brain-tools/install_global.py` instala la skill personal y las referencias globales con cambios acotados y copias previas. El manual de uso y evolución es `INSTRUCTIVO.md`.
 
-Esta versión utiliza archivos nativos. Basic Memory/MCP, búsqueda semántica, captura desde otras aplicaciones y ejecuciones programadas son extensiones futuras. Ninguna se considera activa por aparecer en una investigación o un ejemplo.
+Esta versión utiliza archivos nativos. La captura tiene un instalador separado y un ejecutor horario para Windows; comprueba su estado real antes de declararla activa. Basic Memory/MCP, búsqueda semántica y captura desde otras aplicaciones siguen como extensiones futuras.

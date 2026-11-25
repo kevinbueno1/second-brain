@@ -1,10 +1,11 @@
 {
-  "public_snapshot_date": "2026-11-24",
-  "implementation": "Markdown vault, native Python helper, personal Codex skill and installer",
+  "public_snapshot_date": "2026-11-25",
+  "implementation": "Markdown vault, Python helper, personal Codex skill, selective capture queue and review-first pilot",
   "upstream_reference": {
     "repository": "https://github.com/mattpocock/skills",
     "examined_revision": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-    "vendored": false
+    "vendored": false,
+    "later_examined_revision": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e"
   },
   "design_reference": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
   "export_scope": "Implementation, tests, reusable templates, public documentation, empty vault structure",
@@ -21,5 +22,12 @@
     "personal absolute paths replaced by install-time templates",
     "documentation prepared for a fresh checkout"
   ],
-  "automatic_capture_status": "proposal, not implemented or enabled"
+  "automatic_capture_status": "implemented review-first local pilot; opt-in installation; automatic knowledge publication disabled",
+  "verification": {
+    "local_live_test_date": "2026-11-24",
+    "local_cli_version": "0.162.0-alpha.17.2",
+    "stop_event": "observed from a real new app-server turn, queued and processed",
+    "session_end": "configured and trusted in the local installation; independent emission not tested",
+    "new_checkout": "has no hooks, user configuration or task preinstalled"
+  }
 }
